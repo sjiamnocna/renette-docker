@@ -1,0 +1,14 @@
+includes:
+	- local.neon
+
+session:
+	expiration: 14 days
+
+di:
+	export:
+		parameters: no
+		tags: no
+
+services:
+	Application: APIcation\CApplication(%parameters%)
+	prihlaska: TravnaPrihlaska\CPrihlaska

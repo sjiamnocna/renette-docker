@@ -7,7 +7,12 @@ RUN apk add \
 	build-base \
 	vim
 
-RUN docker-php-ext-install pdo_mysql
+# FIX for PDO-PGSQL
+RUN set -ex \
+  && apk --no-cache add \
+    postgresql-dev
+
+RUN docker-php-ext-install pdo pdo_pgsql
 
 RUN addgroup -g 1000 -S www && \
     adduser -u 1000 -S www -G www

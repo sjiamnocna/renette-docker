@@ -1,24 +1,34 @@
   version: "3"
 
   services:
-    app:
+    psqldb:
+      image: postgres
+      restart: always
+      environment:
+        POSTGRES_PASSWORD: d;%f=68ZXJENER-R
+        PGDATA: /var/lib/postgresql/data/pgdata
+      volumes:
+        - ./docker/pgsql/data/:/var/lib/postgresql/data/
+    phpapp:
       build:
-        context: .
+        context: ./docker/php-fpm/
         dockerfile: Dockerfile
-      image: sandboxapp
-      container_name: app
       restart: unless-stopped
       volumes:
-        - ./src/:/var/www
-
+        - ./server/:/var/www/
+      environment:
+        DB_HOST: psqldb
+        POSTGRES_PASSWORD: d;%f=68ZXJENER-R
+        DEBUG_MODE: 1
+      depends_on:
+        - psqldb
     webserver:
       image: nginx:alpine
-      container_name: webserver
       restart: unless-stopped
       ports:
-        - "8080:80"
+        - "8001:80"
       volumes:
-        - ./src/:/var/www
-        - ./config/nginx/:/etc/nginx/conf.d
+        - ./server/:/var/www
+        - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
       depends_on:
-        - app
+        - phpapp
