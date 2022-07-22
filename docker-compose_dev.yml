@@ -21,6 +21,10 @@
         DB_HOST: psqldb
         POSTGRES_PASSWORD: d;%f=68ZXJENER-R
         DEBUG_MODE: 1
+      volumes:
+        - ./docker/php-fpm/config/zzz-phpSettings.conf:/usr/local/etc/php-fpm.d/zzz-phpSettings.conf
+        - ./docker/.log/phpfpm/:/var/log/
+        - ./phpcode/:/var/www
       depends_on:
         - psqldb
     nextapp:
