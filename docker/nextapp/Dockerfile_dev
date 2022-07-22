@@ -1,0 +1,14 @@
+FROM node:18-alpine AS development
+
+RUN apk add tzdata
+ENV TZ=Europe/Prague
+
+WORKDIR /app
+
+# dont copy anything as were using volume in dev mode
+
+EXPOSE 3000
+
+RUN yarn
+
+CMD ["yarn", "dev"]

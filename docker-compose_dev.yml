@@ -1,3 +1,4 @@
+# Development configuration, don't use on production
   version: "3"
 
   services:
@@ -8,27 +9,40 @@
         POSTGRES_PASSWORD: d;%f=68ZXJENER-R
         PGDATA: /var/lib/postgresql/data/pgdata
       volumes:
-        - ./docker/pgsql/data/:/var/lib/postgresql/data/
+        - ./docker/.data/pgsql/:/var/lib/postgresql/data/
     phpapp:
       build:
         context: ./docker/php-fpm/
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile_dev
       restart: unless-stopped
       volumes:
-        - ./server/:/var/www/
+        - ./phpcode/:/var/www/
       environment:
         DB_HOST: psqldb
         POSTGRES_PASSWORD: d;%f=68ZXJENER-R
         DEBUG_MODE: 1
       depends_on:
         - psqldb
-    webserver:
-      image: nginx:alpine
+    nextapp:
+      build:
+        context: ./docker/nextapp
+        dockerfile: Dockerfile_dev
       restart: unless-stopped
       ports:
-        - "8001:80"
+        - "3000:3000"
       volumes:
-        - ./server/:/var/www
+        - ./next-app:/app
+    webserver:
+      build:
+        context: ./docker/nginx
+        dockerfile: Dockerfile_dev
+      restart: unless-stopped
+      ports:
+        - "8000:80"
+      volumes:
+        - ./phpcode/:/var/www
         - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+        - ./docker/.log/nginx/:/var/log/nginx/
       depends_on:
         - phpapp
+        - nextapp

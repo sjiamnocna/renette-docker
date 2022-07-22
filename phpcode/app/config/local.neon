@@ -1,0 +1,8 @@
+database:
+    dsn: 'pgsql:host=%ENV.DB_HOST%'
+    user: postgres
+    password: %ENV.POSTGRES_PASSWORD%
+
+parameters:
+    service:
+        renette: 12345

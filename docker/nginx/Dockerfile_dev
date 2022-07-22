@@ -1,0 +1,9 @@
+FROM nginx:alpine
+
+RUN apk update \
+RUN apk add \
+	vim \
+    tzdata
+
+# set Timezone
+ENV TZ=Europe/Prague

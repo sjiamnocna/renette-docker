@@ -3,16 +3,13 @@ declare(strict_types=1);
 
 namespace APIcation\Endpoints;
 
-use APIcation\CRequest;
-use Nette\Application\Response;
 use Nette\Application\Responses\JsonResponse;
 use Nette\Database\Connection;
-use TravnaPrihlaska\CPrihlaska;
 
 /**
  * Handle user login/logout, keep login state, keepalive session etc.
  */
-class EApply extends CAbstractEndpoint
+class EGet extends CAbstractEndpoint
 {
     protected array $post;
 
@@ -32,7 +29,7 @@ class EApply extends CAbstractEndpoint
         return new JsonResponse($this->getArray($this->post[ 'params' ]));
     }
 
-    public function __one(): JsonResponse
+    public function one(): JsonResponse
     {
         return new JsonResponse([
           'data' => 42

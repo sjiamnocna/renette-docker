@@ -5,7 +5,11 @@ WORKDIR /var/www
 RUN apk update \
 RUN apk add \
 	build-base \
-	vim
+	vim \
+    tzdata
+
+# set Timezone
+ENV TZ=Europe/Prague
 
 # FIX for PDO-PGSQL
 RUN set -ex \

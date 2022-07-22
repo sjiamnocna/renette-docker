@@ -11,4 +11,3 @@ di:
 
 services:
 	Application: APIcation\CApplication(%parameters%)
-	prihlaska: TravnaPrihlaska\CPrihlaska
